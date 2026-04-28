@@ -8,7 +8,7 @@ import Signup from "../component/Signup";
 
 export const routes = [
   {
-    // path: "/",
+    path: "/",
     // children: [
     //   {
     element: (
