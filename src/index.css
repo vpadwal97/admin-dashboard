@@ -1,0 +1,103 @@
+/* Root Variables */
+:root {
+  --font-family: Arial, sans-serif;
+
+  --primary-color: #4a90e2;
+  --primary-hover: #357abd;
+
+  --border-color: #ccc;
+  --border-radius: 6px;
+
+  --input-padding: 10px 12px;
+  --font-size: 14px;
+
+  --focus-color: rgba(74, 144, 226, 0.3);
+
+  --disabled-bg: #f5f5f5;
+  --disabled-btn: #aaa;
+
+  --error-color: #e74c3c;
+  --error-focus: rgba(231, 76, 60, 0.3);
+}
+
+/* Reset / Base */
+* {
+  box-sizing: border-box;
+  font-family: var(--font-family);
+}
+
+/* Inputs & Selects */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: var(--input-padding);
+  margin: 6px 0 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Focus State */
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 4px var(--focus-color);
+}
+
+/* Disabled State */
+input:disabled,
+select:disabled,
+textarea:disabled {
+  background-color: var(--disabled-bg);
+  cursor: not-allowed;
+}
+
+/* Buttons */
+button,
+a[href],
+input[type="submit"],
+input[type="button"] {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: var(--input-padding);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* Button Hover */
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Button Disabled */
+button:disabled,
+input[type="submit"]:disabled {
+  background-color: var(--disabled-btn);
+  cursor: not-allowed;
+}
+
+/* Error Message */
+.error {
+  color: var(--error-color);
+  font-size: 13px;
+  margin-top: -8px;
+  margin-bottom: 10px;
+}
+
+/* Input Error State */
+.input-error {
+  border-color: var(--error-color);
+}
+
+.input-error:focus {
+  box-shadow: 0 0 4px var(--error-focus);
+}

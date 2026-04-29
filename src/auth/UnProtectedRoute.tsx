@@ -1,17 +1,15 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import useLocal from "../hooks/useLocal";
 
-const ProtectedRoute = () => {
+const UnProtectedRoute = ({ children }) => {
   const [currentUser, setCurrentUser] = useLocal("currentUser", null);
 
-  console.log("PR", currentUser);
-
-  if (!currentUser) {
+  if (currentUser) {
     console.log("You are not authorised user");
     return <Navigate to="/" replace />;
   }
 
-  return <Outlet />;
+  return children;
 };
 
-export default ProtectedRoute;
+export default UnProtectedRoute;

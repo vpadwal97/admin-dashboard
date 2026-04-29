@@ -36,7 +36,7 @@ const Login = () => {
           throw new Error("Wrong Credintials");
         }
         await setCurrentUser(userData);
-
+        // navigate("/");
         navigate(`/${userData.userType}`);
       }
     } catch (error) {
@@ -57,6 +57,7 @@ const Login = () => {
           {...register("loginID")}
         />
         {errors?.loginID && <>{errors.loginID.message}</>}
+
         <input
           type="text"
           name="password"
