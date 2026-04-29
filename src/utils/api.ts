@@ -18,7 +18,7 @@ const refreshToken = async () => {
 
 // Axios request interceptor to attach access token
 API.interceptors.request.use(
-  (config:) => {
+  (config) => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
