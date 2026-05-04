@@ -1,5 +1,6 @@
 import ProtectedRoute from "../auth/ProtectedRoute";
 import UnProtectedRoute from "../auth/UnProtectedRoute";
+import FirebaseLogin from "../auth/FirebaseLogin";
 import Admin from "../component/Admin";
 import Dashboard from "../component/Dashboard";
 import Employee from "../component/Employee";
@@ -34,6 +35,22 @@ export const routes = [
       { path: "dashboard", element: <Dashboard /> },
       { path: "profile", element: <Profile /> },
     ],
+  },
+  {
+    path: "/callback",
+    element: (
+      <UnProtectedRoute>
+        "callback"
+      </UnProtectedRoute>
+    ),
+  },
+  {
+    path: "/firelogin",
+    element: (
+      <UnProtectedRoute>
+        <FirebaseLogin />
+      </UnProtectedRoute>
+    ),
   },
   {
     path: "/login",
