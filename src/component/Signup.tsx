@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import useLocal from "../hooks/useLocal";
 import { Link, useNavigate } from "react-router-dom";
+import API from "../utils/api";
 
 // const userTypeList = ["admin", "employee", "other"];
 
@@ -14,7 +14,7 @@ const Signup = () => {
     password: z
       .string()
       .trim()
-      .min(8, "Password must contain at least 8 characters"),
+      .min(6, "Password must contain at least 6 characters"),
     // userType: z.enum(userTypeList),
     userType: z.string().trim().min(3, "Please enter at least 3 characters"),
   });
@@ -26,14 +26,19 @@ const Signup = () => {
   } = useForm<formSchema>({
     resolver: zodResolver(formData),
   });
-  const [allUsers, setAllUsers] = useLocal("allUsers", []);
   const onSubmit = async (data: formSchema) => {
     try {
-      const newData = [...allUsers, data];
-      console.log(data, newData);
-      await setAllUsers(newData);
+      const resp = await API.post("/auth/register", {
+        username: data.loginID,
+        password: data.password,
+        userType: data.userType,
+      });
+      if (resp?.data?.message) {
+        alert(resp?.data?.message);
+      }
       navigate("/login");
     } catch (error) {
+      alert("something went wrong see the console for erors");
       console.error(error);
     }
   };

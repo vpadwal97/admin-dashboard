@@ -1,13 +1,13 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://n652ng-5000.csb.app",
   withCredentials: true,
 });
 
 const refreshToken = async () => {
   try {
-    const response = await API.post("/refresh");
+    const response = await API.post("/auth/refresh");
     return response.data.accessToken;
   } catch (error) {
     console.error("Refresh token failed", error);
@@ -19,8 +19,8 @@ API.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-        config.headers["Authorization"] = `Bearer ${accessToken}`;
-    } 
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
     return config;
   },
   (error) => Promise.reject(error)
@@ -30,6 +30,25 @@ API.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
+    if (!error.response) return Promise.reject(error);
+
+    if (error.response.status !== 401) {
+      return Promise.reject(error);
+    }
+
+    if (originalRequest._retry) {
+      return Promise.reject(error);
+    }
+
+    if (originalRequest.url.includes("/auth/refresh")) {
+      // refresh itself failed → logout user
+      localStorage.removeItem("accessToken");
+      return Promise.reject(error);
+    }
+
+    // originalRequest._retry = true;
+
     if (
       error.response &&
       error.response.status === 401 &&

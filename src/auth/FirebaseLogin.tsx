@@ -1,9 +1,5 @@
 import { useState } from "react";
-import {
-  loginWithGoogle,
-  loginWithGithub,
-  logoutUser
-} from "../auth";
+import { loginWithGoogle, loginWithGithub, logoutUser } from "../auth";
 import api from "../api";
 
 function FirebaseLogin() {
@@ -42,26 +38,18 @@ function FirebaseLogin() {
 
       {!user ? (
         <>
-          <button onClick={handleGoogle}>
-            Login with Google
-          </button>
+          <button onClick={handleGoogle}>Login with Google</button>
 
-          <button onClick={handleGithub}>
-            Login with GitHub
-          </button>
+          <button onClick={handleGithub}>Login with GitHub</button>
         </>
       ) : (
         <>
           <h3>Welcome</h3>
           <p>{user.email}</p>
 
-          <button onClick={getProfile}>
-            Call Protected API
-          </button>
+          <button onClick={getProfile}>Call Protected API</button>
 
-          <button onClick={handleLogout}>
-            Logout
-          </button>
+          <button onClick={handleLogout}>Logout</button>
         </>
       )}
     </div>

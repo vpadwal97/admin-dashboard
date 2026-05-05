@@ -1,10 +1,9 @@
 import { Navigate } from "react-router-dom";
-import useLocal from "../hooks/useLocal";
 
 const UnProtectedRoute = ({ children }) => {
-  const [currentUser, setCurrentUser] = useLocal("currentUser", null);
+  const userType = localStorage.getItem("userType");
 
-  if (currentUser) {
+  if (userType) {
     console.log("You are not authorised user");
     return <Navigate to="/" replace />;
   }

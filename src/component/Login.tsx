@@ -1,12 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import useLocal from "../hooks/useLocal";
 import { Link, useNavigate } from "react-router-dom";
+import API from "../utils/api";
 
 const Login = () => {
-  const [allUsers] = useLocal("allUsers", []);
-  const [, setCurrentUser] = useLocal("currentUser", null);
   const navigate = useNavigate();
 
   const formData = z.object({
@@ -14,7 +12,7 @@ const Login = () => {
     password: z
       .string()
       .trim()
-      .min(8, "Password must contain at least 8 characters"),
+      .min(6, "Password must contain at least 6 characters"),
   });
   type formSchema = z.infer<typeof formData>;
   const {
@@ -26,22 +24,18 @@ const Login = () => {
   });
   const onSubmit = async (data: formSchema) => {
     try {
-      if (allUsers?.length <= 0) {
-        throw new Error("there are no users in the system");
+      const resp = await API.post("/auth/login", {
+        username: data.loginID,
+        password: data.password,
+      });
+      if (resp?.data?.accessToken && resp?.data?.userType) {
+        localStorage.setItem("accessToken", resp?.data?.accessToken);
+        localStorage.setItem("userType", resp?.data?.userType);
+      }
+      if (["admin", "employee"].includes(resp?.data?.userType?.toLowerCase())) {
+        navigate(`/${resp?.data?.userType?.toLowerCase()}`);
       } else {
-        const userData = allUsers?.find(
-          (user) =>
-            user.loginID === data.loginID && user.password === data.password
-        );
-        if (!userData) {
-          throw new Error("Wrong Credintials");
-        }
-        await setCurrentUser(userData);
-        if (["admin", "employee"].includes(userData.userType.toLowerCase())) {
-          navigate(`/${userData.userType.toLowerCase()}`);
-        } else {
-          navigate("/dashboard");
-        }
+        navigate("/dashboard");
       }
     } catch (error) {
       if (error?.message) {

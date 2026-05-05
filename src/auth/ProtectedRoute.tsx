@@ -1,5 +1,4 @@
 import { Navigate, useMatches } from "react-router-dom";
-import useLocal from "../hooks/useLocal";
 
 type MatchType = {
   handle?: {
@@ -10,22 +9,22 @@ type MatchType = {
 
 // const ProtectedRoute = ({ children, allowedRole = [] }) => {
 const ProtectedRoute = ({ children }) => {
-  const [currentUser] = useLocal("currentUser", null);
+  const userType = localStorage.getItem("userType");
   const matches = useMatches() as MatchType[];
 
   const allowedRole = matches[matches.length - 1]?.handle?.roles;
 
-  console.log(currentUser?.userType, matches, allowedRole);
+  console.log(userType, matches, allowedRole);
 
-  if (!currentUser) {
+  if (!userType) {
     console.log("You are not authorised user");
     return <Navigate to="/login" replace />;
   }
 
   if (
     allowedRole?.length > 0 &&
-    currentUser?.userType &&
-    !allowedRole.includes(currentUser.userType.toLowerCase())
+    userType &&
+    !allowedRole.includes(userType.toLowerCase())
   ) {
     console.log("You are not authorised to go to this page");
     return <Navigate to="/dashboard" replace />;
