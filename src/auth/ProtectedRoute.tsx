@@ -1,9 +1,9 @@
 import { Navigate, useMatches } from "react-router-dom";
 
 type MatchType = {
-  handle?: {
+  handle: {
     [key: string]: unknown;
-    roles?: string[];
+    roles: string[];
   };
 };
 
